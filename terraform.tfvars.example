@@ -1,0 +1,16 @@
+aws_profile       = "ANY-AWS-PROFILE"
+ssh_ingress_cidrs = ["YOUR.IP.ADDR.ESS/32"]
+
+admin_ssh_public_key = "ssh-ed25519 AAAA... admin@machine"
+
+user_pubkeys = {
+  alice = "ssh-ed25519 AAAA... alice@laptop"
+  bob   = "ssh-ed25519 AAAA... bob@pc"
+  carol = "ssh-ed25519 AAAA... carol@mbp"
+  dave  = "ssh-ed25519 AAAA... dave@nuc"
+  erin  = "ssh-ed25519 AAAA... erin@work"
+}
+
+# Optional static private IP inside the selected subnet:
+# private_ip = "10.0.1.50"
+

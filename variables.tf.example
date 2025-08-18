@@ -1,0 +1,42 @@
+variable "name" {
+  type    = string
+  default = "ubuntu-free-tier"
+}
+
+variable "region" {
+  type    = string
+  default = "us-east-1"
+}
+
+variable "aws_profile" {
+  type    = string
+  default = null
+}
+
+variable "instance_type" {
+  type    = string
+  default = "t2.micro"
+}
+
+variable "ssh_ingress_cidrs" {
+  description = "List of CIDRs allowed for SSH (use /32 per person)"
+  type        = list(string)
+  default = ["0.0.0.0/0"] # change to your IPs
+}
+
+variable "admin_ssh_public_key" {
+  description = "Admin public key for 'ubuntu' user"
+  type        = string
+}
+
+variable "user_pubkeys" {
+  description = "Map of username => public key (5 users)"
+  type        = map(string)
+}
+
+variable "private_ip" {
+  description = "Optional static private IP in the subnet"
+  type        = string
+  default     = null
+}
+

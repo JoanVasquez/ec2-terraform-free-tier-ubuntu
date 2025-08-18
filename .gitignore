@@ -1,0 +1,36 @@
+# --- Terraform working dir
+.terraform/
+.terraform/*
+.terraform.lock.hcl
+
+
+# --- Terraform state (sensitive / machine-generated)
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+variables.tf
+
+# --- Local overrides (never commit)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# --- Vars with secrets (keep only the *.example files in git)
+terraform.tfvars
+terraform.tfvars.json
+*.tfvars
+*.tfvars.json
+
+# --- Keys / certs (just in case)
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+

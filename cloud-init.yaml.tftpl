@@ -1,0 +1,61 @@
+#cloud-config
+ssh_pwauth: false
+disable_root: true
+package_update: true
+package_upgrade: false
+
+# Harden SSH: keys only, no root
+write_files:
+  - path: /etc/ssh/sshd_config.d/00-hardening.conf
+    permissions: '0644'
+    owner: root:root
+    content: |
+      PasswordAuthentication no
+      PermitRootLogin prohibit-password
+      PubkeyAuthentication yes
+      ChallengeResponseAuthentication no
+      X11Forwarding no
+      AllowTcpForwarding no
+      ClientAliveInterval 300
+      ClientAliveCountMax 2
+
+  # Whitelist VERY limited admin tasks for ops group only
+  - path: /etc/sudoers.d/ops-limited
+    permissions: '0440'
+    owner: root:root
+    content: |
+      %ops ALL=(root) NOPASSWD: \
+        /usr/bin/apt-get update, /usr/bin/apt-get upgrade *, \
+        /usr/bin/apt update, /usr/bin/apt upgrade *, \
+        /usr/sbin/netplan, /usr/sbin/netplan apply, \
+        /bin/systemctl restart systemd-networkd, \
+        sudoedit /etc/netplan/50-cloud-init.yaml
+
+# Create 'ops' group (for limited tasks), and the 5 users
+groups:
+  - ops
+
+users:
+  # Keep 'ubuntu' admin and add your admin key
+  - name: ubuntu
+    gecos: "Ubuntu Admin"
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: true
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${admin_pubkey}
+
+  # Add the 5 non-admin users with their keys and place them in 'ops'
+  %{~ for k, v in jsondecode(user_pubkeys_json) ~}
+  - name: ${k}
+    gecos: "${k}"
+    groups: [ops]
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ${v}
+  %{~ endfor ~}
+
+runcmd:
+  - systemctl reload ssh
+
