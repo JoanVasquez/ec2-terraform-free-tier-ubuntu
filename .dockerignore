@@ -1,0 +1,47 @@
+# Ignore Git data
+.git
+.gitignore
+
+# Terraform state and config
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.*
+*.tfvars
+*.tfvars.json
+
+# Node / Python / Java typical junk (if present later)
+node_modules/
+__pycache__/
+*.pyc
+*.class
+target/
+dist/
+build/
+
+# OS / Editor / Temp files
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Local config and examples
+*.example
+.env
+.env.*
+
+# Databases (if you mount volumes, don’t copy local db data)
+mysql/data/
+mongo/data/
+
+# IDE configs
+.vscode/
+.idea/
+
