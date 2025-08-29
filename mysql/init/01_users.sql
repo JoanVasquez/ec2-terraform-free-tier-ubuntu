@@ -3,18 +3,14 @@ CREATE DATABASE IF NOT EXISTS uapaSoftwareLibreDB
   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
 -- Admin del schema
-CREATE USER IF NOT EXISTS 'ubuntu'@'%' IDENTIFIED BY 'ubuntupass123';
+CREATE USER IF NOT EXISTS 'adminuser'@'%' IDENTIFIED BY 'adminsomepass';
 GRANT ALL PRIVILEGES ON uapaSoftwareLibreDB.* TO 'ubuntu'@'%';
 
 -- Privilegios razonables para el resto
-CREATE USER IF NOT EXISTS 'david'@'%' IDENTIFIED BY 'davidpass123';
-CREATE USER IF NOT EXISTS 'frank'@'%' IDENTIFIED BY 'frankpass123';
-CREATE USER IF NOT EXISTS 'joanv'@'%' IDENTIFIED BY 'joanvpass123';
-CREATE USER IF NOT EXISTS 'joel'@'%'  IDENTIFIED BY 'joelpass123';
-CREATE USER IF NOT EXISTS 'josec'@'%' IDENTIFIED BY 'josecpass123';
-CREATE USER IF NOT EXISTS 'sarai'@'%' IDENTIFIED BY 'saraipass123';
+CREATE USER IF NOT EXISTS 'user1'@'%' IDENTIFIED BY 'somepass';
+CREATE USER IF NOT EXISTS 'user2'@'%' IDENTIFIED BY 'somepass';
 
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX ON uapaSoftwareLibreDB.* TO
-  'david'@'%', 'frank'@'%', 'joanv'@'%', 'joel'@'%', 'josec'@'%', 'sarai'@'%';
+  'user1'@'%', 'user2'@'%';
 
 FLUSH PRIVILEGES;
