@@ -3,16 +3,16 @@ const dbName = 'uapaSoftwareLibreDB';
 const appDb = db.getSiblingDB(dbName);
 
 appDb.createUser({
-  user: "ubuntu",
-  pwd: "ubuntupass123",
+  user: "someadminuser",
+  pwd: "somepass",
   roles: [ { role: "dbOwner", db: dbName } ]
 });
 
 // Usuarios con readWrite
-["david","frank","joanv","joel","josec","sarai"].forEach(u => {
+["user1","user2"].forEach(u => {
   appDb.createUser({
     user: u,
-    pwd: `${u}pass123`,
+    pwd: `${u}password123`,
     roles: [ { role: "readWrite", db: dbName } ]
   });
 });
