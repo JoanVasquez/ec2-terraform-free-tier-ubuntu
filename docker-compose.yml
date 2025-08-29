@@ -4,7 +4,7 @@ services:
     container_name: mysql
     restart: unless-stopped
     ports:
-      - "3306:3306"            # expuesto al host (SG controlará el acceso)
+      - "3306:3306" 
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
