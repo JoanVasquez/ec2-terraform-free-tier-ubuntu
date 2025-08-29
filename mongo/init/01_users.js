@@ -1,5 +1,9 @@
 (function () {
-  const dbname = process.env.MONGO_INITDB_DATABASE || "uapaSoftwareLibreDB";
+  const dbname =
+    (typeof process !== "undefined" &&
+      process.env &&
+      process.env.MONGO_INITDB_DATABASE) ||
+    "uapaSoftwareLibreDB";
   const users = [
     {
       u: "ubuntu",
@@ -33,8 +37,11 @@
       roles: [{ role: "readWrite", db: dbname }],
     },
   ];
-  const db = db.getSiblingDB(dbname);
+
+  const appdb = db.getSiblingDB(dbname);
   users.forEach(({ u, p, roles }) => {
-    if (!db.getUser(u)) db.createUser({ user: u, pwd: p, roles });
+    if (!appdb.getUser(u)) {
+      appdb.createUser({ user: u, pwd: p, roles });
+    }
   });
 })();
