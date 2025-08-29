@@ -8,7 +8,6 @@ appDb.createUser({
   roles: [ { role: "dbOwner", db: dbName } ]
 });
 
-// Usuarios con readWrite
 ["user1","user2"].forEach(u => {
   appDb.createUser({
     user: u,
