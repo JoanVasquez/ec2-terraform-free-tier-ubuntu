@@ -72,7 +72,7 @@ resource "aws_key_pair" "admin" {
 }
 
 # --- Security group: SSH only from allowed CIDRs ---
-resource "aws_security_group" "ssh" {
+resource "aws_security_group" "uapa-software-libre-security-group" {
   name        = "${var.name}-ssh"
   description = "SSH restricted"
   vpc_id      = aws_default_vpc.default.id
@@ -92,6 +92,28 @@ resource "aws_security_group" "ssh" {
   }
 
   tags = { Name = "${var.name}-ssh" }
+}
+
+resource "aws_security_group_rule" "mysql_ingress" {
+  for_each          = toset(var.db_ingress_cidrs)
+  type              = "ingress"
+  description       = "MySQL from ${each.value}"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  cidr_blocks       = [each.value]
+  security_group_id = aws_security_group.uapa-software-libre-security-group.id
+}
+
+resource "aws_security_group_rule" "mongodb_ingress" {
+  for_each          = toset(var.db_ingress_cidrs)
+  type              = "ingress"
+  description       = "MongoDB from ${each.value}"
+  from_port         = 27017
+  to_port           = 27017
+  protocol          = "tcp"
+  cidr_blocks       = [each.value]
+  security_group_id = aws_security_group.uapa-software-libre-security-group.id
 }
 
 # --- EC2 instance ---
