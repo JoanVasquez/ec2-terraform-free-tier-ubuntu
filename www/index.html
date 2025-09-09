@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Práctica 3 — Resultado del Despliegue (Grupo 9)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>Actividad Práctica 3 — Resultado del Despliegue</h1>
+      <p class="tags">
+        <span class="tag">Unidad III · Software de Gestión de BD y Servidores Web</span>
+        <span class="tag">Grupo <strong>9</strong></span>
+      </p>
+      <p class="subtitle">
+        Servidor web de <strong>software libre</strong> instalado y funcionando sobre <strong>Nginx + Docker Compose</strong>.
+      </p>
+    </header>
+
+    <main class="grid">
+      <section class="card">
+        <h2>✅ Estado del despliegue</h2>
+        <ul class="checklist">
+          <li>Servidor web: <strong>Nginx</strong> ejecutándose en contenedor Docker.</li>
+          <li>Puerto de publicación: <strong>80/tcp</strong> (expuesto al exterior).</li>
+          <li>Raíz de documentos: <code>/usr/share/nginx/html</code>.</li>
+          <li>Archivo de inicio: <code>index.html</code> (esta página).</li>
+          <li>Acceso externo: <strong id="host">http://&lt;tu-ip&gt;</strong></li>
+          <li>Security Group/Firewall: regla HTTP abierta para acceso de verificación.</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Verificación:</strong> si ves esta página desde otra máquina, el servidor está <span class="ok">correctamente desplegado</span>.</p>
+          <p class="muted small">Hora local del navegador: <span id="now"></span></p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Resumen académico</h2>
+        <h3>Resultados de aprendizaje vinculados</h3>
+        <ul>
+          <li><strong>RA5</strong>: Configurar un servidor web y de base de datos de forma segura para proyectos informáticos.</li>
+          <li><strong>RA8</strong>: Utilizar diseño y codificación para el desarrollo con software libre.</li>
+        </ul>
+        <h3>Objetivo</h3>
+        <p>
+          Instalar y configurar un servidor web libre en GNU/Linux, dejando listo el entorno para el despliegue del proyecto final.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Integrantes — Grupo 9</h2>
+        <table class="table">
+          <thead>
+            <tr><th>#</th><th>Nombre</th><th>Matrícula</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Frank Michael Abreu</td><td>100067902</td></tr>
+            <tr><td>2</td><td>Joan Manuel Vásquez</td><td>100032607</td></tr>
+            <tr><td>3</td><td>Sarai Rodriguez Santos</td><td>100071668</td></tr>
+            <tr><td>4</td><td>Danny David Rodriguez</td><td>100071623</td></tr>
+            <tr><td>5</td><td>Joel Antonio Alcantara</td><td>100070754</td></tr>
+            <tr><td>6</td><td>José Alberto Cordones</td><td>100038920</td></tr>
+            <tr><td>7</td><td>José Carlos Hernández</td><td>100044624</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>Detalles de implementación</h2>
+        <ul>
+          <li>Servidor: <strong>Nginx</strong> en contenedor.</li>
+          <li>Publicación de puertos: <code>80:80</code> en Docker Compose.</li>
+          <li>Config básica (<code>default.conf</code>): <code>root /usr/share/nginx/html;</code> · <code>index index.html;</code></li>
+          <li>Prueba final: <a href="/" class="link">abrir página principal</a> (debería cargar este index).</li>
+        </ul>
+        <p class="muted small">
+          Nota: La versión exacta de Nginx y otros parámetros pueden variar según la imagen utilizada.
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Universidad · Unidad III · Práctica 3 · Grupo 9</p>
+    </footer>
+  </div>
+
+  <script>
+    // Muestra host y hora
+    document.getElementById('host').textContent = window.location.origin;
+    const now = new Date();
+    document.getElementById('now').textContent = now.toLocaleString();
+  </script>
+</body>
+</html>
+
