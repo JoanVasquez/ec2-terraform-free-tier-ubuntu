@@ -1,21 +1,23 @@
 # UAPA Software Libre - Multi-User Ubuntu Server
 
-Terraform configuration to deploy a hardened Ubuntu 24.04 LTS server on AWS with multi-user SSH access for educational purposes.
+Terraform configuration to deploy a hardened Ubuntu 24.04 LTS server on AWS with multi-user SSH access and containerized database services for educational purposes.
 
 ## Overview
 
 This project creates:
 - **EC2 Instance**: Ubuntu 24.04 LTS (t2.micro for free tier)
-- **Multi-User Setup**: Admin user + 5 student users with SSH key authentication
+- **Multi-User Setup**: Admin user + student users with SSH key authentication
+- **Database Services**: MySQL 8.4 and MongoDB 6.0 via Docker Compose
+- **Web Server**: Nginx serving static content
 - **Security**: Hardened SSH configuration, encrypted storage, restricted access
-- **Networking**: Default VPC with Elastic IP for stable connectivity
+- **Networking**: Default VPC with Elastic IP and database port access
 
 ## Quick Start
 
 1. **Clone and Setup**
    ```bash
    git clone <repository-url>
-   cd uapa_software_libre_tareas
+   cd ec2-terraform-free-tier-ubuntu
    cp terraform.tfvars.example terraform.tfvars
    cp variables.tf.example variables.tf
    ```
@@ -23,15 +25,16 @@ This project creates:
 2. **Configure Variables**
    Edit `terraform.tfvars`:
    ```hcl
-   aws_profile       = "your-aws-profile"
-   ssh_ingress_cidrs = ["YOUR.IP.ADDRESS/32"]
+   aws_profile         = "your-aws-profile"
+   ssh_ingress_cidrs   = ["YOUR.IP.ADDRESS/32"]
+   db_ingress_cidrs    = ["YOUR.IP.ADDRESS/32"]
    
    admin_ssh_public_key = "ssh-ed25519 AAAA... admin@machine"
    
    user_pubkeys = {
      alice = "ssh-ed25519 AAAA... alice@laptop"
      bob   = "ssh-ed25519 AAAA... bob@pc"
-     # ... add 5 users total
+     # ... add users as needed
    }
    ```
 
@@ -42,27 +45,37 @@ This project creates:
    terraform apply
    ```
 
-4. **Connect**
+4. **Connect and Setup Services**
    ```bash
    # Admin access (full sudo)
    ssh -i ~/.ssh/your_key ubuntu@<public_ip>
    
    # Student access (limited sudo)
    ssh -i ~/.ssh/student_key alice@<public_ip>
+   
+   # Start database services
+   docker-compose up -d
    ```
+
+## Services
+
+- **Nginx**: Web server on port 80 serving static content
+- **MySQL**: Database server on port 3306 (MySQL 8.4)
+- **MongoDB**: NoSQL database on port 27017 (MongoDB 6.0)
 
 ## User Permissions
 
 - **ubuntu**: Full admin access (`sudo` without password)
-- **Students**: Limited `sudo` access for system updates and network configuration only
+- **Students**: Limited `sudo` access (ops group) for system updates and network configuration only
 
 ## Security Features
 
 - SSH key authentication only (no passwords)
 - Root login disabled
 - Encrypted EBS storage
-- Restricted security group (SSH from specified IPs only)
+- Restricted security group (SSH and database access from specified IPs only)
 - Hardened SSH configuration
+- Database authentication enabled
 
 ## Cost Optimization
 
@@ -80,4 +93,11 @@ terraform destroy
 
 - Terraform >= 1.6.0
 - AWS CLI configured
+- Docker and Docker Compose (installed on server)
 - SSH key pairs for admin and users
+
+## Database Access
+
+- **MySQL**: Connect to `<public_ip>:3306` with configured credentials
+- **MongoDB**: Connect to `<public_ip>:27017` with configured credentials
+- **Web**: Access static site at `http://<public_ip>`
